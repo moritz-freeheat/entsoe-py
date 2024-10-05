@@ -51,7 +51,8 @@ def _timeseries_frequencies_to_timedelta(freq_text: str) -> str:
         '0.25H': '15min',
         '0.5H': '30min',
     }
-
+    if freq_text in list(time_mapping.values()):
+        return freq_text
     delta = time_mapping.get(freq_text)
     if delta is None:
         raise NotImplementedError("Sorry, I don't know what to do with the "
