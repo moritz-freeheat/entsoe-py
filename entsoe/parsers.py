@@ -10,7 +10,7 @@ import pandas as pd
 from .mappings import PSRTYPE_MAPPINGS, DOCSTATUS, BSNTYPE, Area
 from .series_parsers import _extract_timeseries, _resolution_to_timedelta, _parse_datetimeindex, \
     _parse_timeseries_generic, \
-    _parse_timeseries_generic_whole, _timeseries_frequencies_to_timedelta
+    _parse_timeseries_generic_whole
 
 warnings.filterwarnings('ignore', category=XMLParsedAsHTMLWarning)
 
@@ -36,8 +36,7 @@ def parse_prices(xml_text):
     }
     for soup in _extract_timeseries(xml_text):
         soup_series = _parse_timeseries_generic(soup, 'price.amount')
-        freq_key = _timeseries_frequencies_to_timedelta(soup_series.index.freqstr)
-        series[freq_key].append(soup_series)
+        series[soup_series.index.freqstr].append(soup_series)
 
     for freq, freq_series in series.items():
         if len(freq_series) > 0:
